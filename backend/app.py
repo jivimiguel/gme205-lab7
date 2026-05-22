@@ -85,7 +85,7 @@ def get_parcels():
                 ASS_ACTUAL,
             ASS_CLASSI,
             ST_AsGeoJSON(geom)
-            FROM parcel;
+            FROM parcels;
         """
 
         cursor.execute(query)
