@@ -83,8 +83,8 @@ def get_parcels():
         query = """
             SELECT
                 ASS_ACTUAL,
-            ASS_CLASSI,
-            ST_AsGeoJSON(geom)
+                ASS_CLASSI,
+                ST_AsGeoJSON(ST_Force2D(geom)) AS geometry
             FROM parcels;
         """
 
@@ -92,17 +92,17 @@ def get_parcels():
         rows = cursor.fetchall()
 
         features = []
-        
+
         for row in rows:
-            features = {
+            features.append({
                 "type": "Feature",
                 "properties": {
                     "ASS_ACTUAL": row[0],
                     "ASS_CLASSI": row[1]
                 },
                 "geometry": json.loads(row[2])
-            }
-
+            })
+            
         geojson = {
             "type": "FeatureCollection",
             "name": "parcel",
